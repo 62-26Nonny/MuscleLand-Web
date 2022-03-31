@@ -1,0 +1,6 @@
+.info {
+  margin: 40px 20px;
+  border-radius: 10px;
+}
+
+/* ส่วนอื่นที่ใช่ className ชื่อเดียวกันต่อให้ไม่ import มันก็ดึงส่วนนี้ไปใช้ */
