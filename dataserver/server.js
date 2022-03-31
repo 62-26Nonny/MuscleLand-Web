@@ -223,7 +223,7 @@ app.post("/achievement", async (req, res) =>{
     res.json({ id: results[0] });
 })
 
-app.listen( 3200, function(req,res){
+app.listen(process.env.PORT || 3200, function(req,res){
     console.log("The server has been connect by port : 3200");
 });
 
