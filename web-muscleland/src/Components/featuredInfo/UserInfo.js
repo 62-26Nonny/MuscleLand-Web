@@ -6,7 +6,7 @@ export default function UserInfo() {
     <Container>
       <Row>
         <div className="featured">
-          <Col xs={2} md={4} lg={6}>
+          <Col lg="auto" xl={6}>
             <div className="featuredItem">
               <span className="featuredTitle">Active Player</span>
               <div className="player">
@@ -15,7 +15,7 @@ export default function UserInfo() {
               </div>
             </div>
           </Col>
-          <Col xs={2} md={4} lg={6}>
+          <Col lg="auto" xl={6}>
             <div className="featuredItem">
               <span className="featuredTitle">Inactive Player</span>
               <div className="player">
@@ -24,7 +24,7 @@ export default function UserInfo() {
               </div>
             </div>
           </Col>
-          <Col xs={2} md={4} lg={6}>
+          <Col lg="auto" xl={6}>
             <div className="featuredItem">
               <span className="featuredTitle">Total Player</span>
               <div className="player">
