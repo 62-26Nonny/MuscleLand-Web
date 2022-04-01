@@ -93,8 +93,8 @@ export default function Mission() {
       <MissionInfo AverageMission = {findAverageAge(questListData)} />
       {/* <MissionList rows = {questListData} />
       <MissionList rows = {achievementListData} /> */}
-      {/* <MissionList rows = {questListData} columns = {questColumns}/> */}
-      {/* <MissionList rows = {achievementListData} columns = {achievementColumns}/> */}
+      <MissionList rows = {questListData} columns = {questColumns}/>
+      <MissionList rows = {achievementListData} columns = {achievementColumns}/>
       <div>
         {/* {AchievementListData.map((val, key) => {
           return(
