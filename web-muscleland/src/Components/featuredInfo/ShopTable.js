@@ -16,7 +16,7 @@ export default function ShopTable(props) {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col lg={10} xl="auto">
           <div className="tableShop">
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 750 }} aria-label="simple table">
