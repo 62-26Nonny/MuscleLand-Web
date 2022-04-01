@@ -12,19 +12,17 @@ export default function Shop() {
   useEffect(() => {
     axiosNoAuthenInstance.get('/user').then((res) =>{
       setUserData(res.data);
-      //console.log(res.data) 
     })
 
     axiosNoAuthenInstance.get('/item').then((res) =>{
       setItemData(res.data);
-      //console.log(res.data.results)
     })
 
     axiosNoAuthenInstance.get('/inventory').then((res) =>{
       setInventoryData(res.data);
-      //console.log(res.data)
     })
 
+    
   },[])
 
   function countcheck(x) {
@@ -57,7 +55,7 @@ export default function Shop() {
   // console.log(counts)
   // console.log(countstype)
   
-  const missionList = (Array.from(itemData).map((val,key) => {
+  const itemList = (Array.from(itemData).map((val,key) => {
     return {
       id: val.itemID,
       name: val.itemname,
@@ -67,10 +65,27 @@ export default function Shop() {
     }
   }))
 
+  const itemSeller = [...itemList]
+
+  itemSeller.sort(function(a, b) {
+    return b.ownedRate - a.ownedRate;
+  })
+  console.log(itemList)
+  console.log(itemSeller)
+
+  // const itemcount = (Array.from(itemSeller).map((val,key) => {
+  //   let sellrstring = ""
+  //   return {
+  //     name: 'Worst seller', costumes: val.name, accessories: 'Sunglasses', booster: 'Durian juice'
+  //   }
+  // }))
+
+  //console.log(itemcount)
+
   const typeOfItem = [
   { name: 'Item Amount (item)', costumes	: countcheck(countstype.Costume)},
-  {name: 'Worst seller', costumes: 'Yellow shirt', accessories: 'Sunglasses', booster: 'Durian juice'},
-  {name: 'Best seller', costumes: 'Ricardo underwear', accessories: 'Smart watch', booster: 'M150'}
+  {name: 'Worst seller', costumes: 4 },
+  {name: 'Best seller', costumes: 'Ricardo underwear'}
   ]
 
   const columns = [
@@ -81,16 +96,10 @@ export default function Shop() {
     { field: "ownedRate", headerName: "Owned rate (%)", width: 130 },
   ];
 
-  const itemcount = (Array.from(itemData).map((val,key) => {
-    return {
-      category: val.type
-    }
-  }))
-
   return (
     <div className="shop">
       <ShopInfo rows = {typeOfItem} />
-      <ShopList rows = {missionList} columns = {columns}/>
+      <ShopList rows = {itemList} columns = {columns}/>
     </div>
   );
 

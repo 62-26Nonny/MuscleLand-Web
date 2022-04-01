@@ -9,7 +9,7 @@ export default function Mission() {
   const [mergeachievement, setmergeachievement] = useState([]);
   const [Achievement, SetAchievement] = useState([]);
   const [UserAchievement, SetUserAchievement] = useState([]);
-  const [mergequest, setmergequest] = useState([]);
+  const [QuestData, setQuestData] = useState([]);
 
   function mergeArrayObjects(arr1,arr2){
     return arr1.map((item,i)=>{
@@ -38,14 +38,10 @@ export default function Mission() {
     async function GetQuestData() {
       let res = await axiosNoAuthenInstance.get('/quest')
       Questdata = res.data
+      setQuestData(Questdata)
       console.log(Questdata)
     }
-    async function GetQuestStatData() {
-      let res = await axiosNoAuthenInstance.get('/queststat')
-      QuestStatdata = res.data
-      console.log(QuestStatdata)
-      setmergequest(mergeArrayObjects(Questdata,QuestStatdata))
-    }
+
     async function GetAchievementData() {
       let res = await axiosNoAuthenInstance.get('/achievement')
       Achievementdata = res.data
@@ -59,12 +55,11 @@ export default function Mission() {
     }
 
     GetQuestData()
-    GetQuestStatData()
     GetAchievementData()
     GetUserAchievementData()
   },[])
   
-  const questListData = (mergequest.map((val,key) => {
+  const questListData = (QuestData.map((val,key) => {
     return { id: val.questID, description: val.description ,type: val.type , clearRate: NaNCheck(val.totalcomplest/val.totalaccept) }
   }))
 
@@ -89,17 +84,17 @@ export default function Mission() {
   const findAverageAge = (arr) => {
     const { length } = arr;
     return arr.reduce((acc, val) => {
-       return acc + (val.clearRate/length);
+    return acc + (val.clearRate/length);
     }, 0);
- };
+  };
 
   return (
     <div className="mission"> 
       <MissionInfo AverageMission = {findAverageAge(questListData)} />
       {/* <MissionList rows = {questListData} />
       <MissionList rows = {achievementListData} /> */}
-      <MissionList rows = {questListData} columns = {questColumns}/>
-      <MissionList rows = {achievementListData} columns = {achievementColumns}/>
+      {/* <MissionList rows = {questListData} columns = {questColumns}/> */}
+      {/* <MissionList rows = {achievementListData} columns = {achievementColumns}/> */}
       <div>
         {/* {AchievementListData.map((val, key) => {
           return(
@@ -108,7 +103,6 @@ export default function Mission() {
           </p>
           ) 
         })} */}
-        5555
       </div>
     </div>
   );

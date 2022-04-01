@@ -4,12 +4,12 @@ function UserGet() {
     return knex("User").select("*");
 };
 
-function UserGetByIdid(id) {
+function UserGetByID(id) {
     return knex("User").select("*").where("ID", id);
 };
 
 function UserUpdate(id, user) {
-    return knex("User").where("id", id).update(user);
+    return knex("User").where("ID", id).update(user);
 };
 
 function UserInsert(user) {
@@ -65,7 +65,7 @@ function ItemGetByUserId(userID, isOwned)
 };
 
 function ItemUpdate(id, info) {
-    return knex("item").where("id", id).update(info);
+    return knex("item").where(itemID, id).update(info);
 };
 
 function ItemInsert(info) {
@@ -81,7 +81,7 @@ function InventoryGetById(id) {
 };
 
 function InventoryUpdate(id, info) {
-    return knex("inventory").where("id", id).update(info);
+    return knex("inventory").where("userID", id).update(info);
 };
 
 function InventoryInsert(info) {
@@ -113,7 +113,7 @@ function QuestStatGetById(id) {
 };
 
 function QuestStatUpdate(id, info) {
-    return knex("queststat").where("id", id).update(info);
+    return knex("queststat").where(ID, id).update(info);
 };
 
 function QuestStatInsert(info) {
@@ -121,7 +121,7 @@ function QuestStatInsert(info) {
 };
 
 function QuestGet() {
-    return knex("Quest").select("*");
+    return knex("quest").select("*");
 };
 
 function QuestGetById(id) {
@@ -133,11 +133,19 @@ function QuestGetByType(type) {
 };
 
 function QuestUpdate(id, info) {
-    return knex("Quest").where("id", id).update(info);
+    return knex("quest").where("questID", id).update(info);
 };
 
 function QuestInsert(info) {
-    return knex("Quest").insert(info);
+    return knex("quest").insert(info);
+
+};
+function QuestDelete(questID) {
+    return knex("quest").where({questID: questID}).del();
+};
+
+function QuestAcceptUpdate(questID) {
+    return knex("dungeonstat").where({questID: questID}).increment({accept: 1});
 };
 
 function ExplorationGet() {
@@ -210,7 +218,7 @@ function AchievementInsert(info) {
 module.exports = {
     UserGet,
     UserInsert,                
-    UserGetByIdid,
+    UserGetByID,
     UserUpdate,
     UserAchievementGet,
     UserAchievementGetById,
@@ -240,6 +248,8 @@ module.exports = {
     QuestGetById,
     QuestInsert,
     QuestUpdate,
+    QuestDelete,
+    QuestAcceptUpdate,
     ExplorationGet,
     ExplorationGetById,
     ExplorationInsert,

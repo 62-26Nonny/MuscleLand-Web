@@ -18,7 +18,7 @@ app.get("/user", async (req, res) =>{
 })
 
 app.get("/user/:id", async (req, res) =>{
-    res.json(await db.UserGetByIdid(req.params.id));
+    res.json(await db.UserGetByID(req.params.id));
 })
 
 app.post("/user/:id", async (req, res) =>{
@@ -142,12 +142,22 @@ app.get("/quest/type/:type", async (req, res) =>{
     res.json( await db.QuestGetByType(req.params.type) );
 })
 
+app.post("/quest/accept/:id", async (req, res) =>{
+    const results = await db.QuestAcceptUpdate(req.params.id);
+    res.json({ id: results[0] });   
+})
+
 app.get("/quest/:id", async (req, res) =>{
     res.json( await db.QuestGetById(req.params.id) );
 })
 
 app.post("/quest/:id", async (req, res) =>{
     await db.QuestUpdate(req.params.id, req.body);
+    res.json({ successs: true });
+})
+
+app.delete("/quest/:id", async (req, res) =>{
+    await db.QuestDelete(req.params.id);
     res.json({ successs: true });
 })
 

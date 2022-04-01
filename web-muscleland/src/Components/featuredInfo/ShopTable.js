@@ -19,9 +19,7 @@ export default function ShopTable(props) {
           <TableHead>
             <TableRow>
               <TableCell>Item</TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -33,9 +31,7 @@ export default function ShopTable(props) {
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell align="right">{row.costumes} </TableCell>
-                <TableCell align="right">{row.accessories}</TableCell>
-                <TableCell align="right">{row.booster}</TableCell>
+                <TableCell align="left">{row.costumes} </TableCell>
               </TableRow>
             ))}
           </TableBody>
