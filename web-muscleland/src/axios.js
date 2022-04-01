@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3200/';
+//const baseURL = 'http://localhost:3200/';
+const baseURL = 'https://muscle-land.herokuapp.com/';
 
 const axiosInstance = axios.create({
 	baseURL: baseURL,

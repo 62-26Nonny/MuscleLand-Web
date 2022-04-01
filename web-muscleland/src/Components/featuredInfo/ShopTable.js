@@ -18,10 +18,10 @@ export default function ShopTable(props) {
         <Table sx={{ minWidth: 750 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell></TableCell>
-              <TableCell align="right">Costumes</TableCell>
-              <TableCell align="right">Accessories</TableCell>
-              <TableCell align="right">Booster</TableCell>
+              <TableCell>Item</TableCell>
+              <TableCell align="right"></TableCell>
+              <TableCell align="right"></TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

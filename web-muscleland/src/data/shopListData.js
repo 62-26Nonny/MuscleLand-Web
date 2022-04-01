@@ -4,7 +4,6 @@ export const columns = [
   { field: "category", headerName: "Category", width: 130 },
   { field: "cost", headerName: "Cost", width: 100 },
   { field: "ownedRate", headerName: "Owned rate (%)", width: 130 },
-  { field: "usedRate", headerName: "Used rate (%)", width: 100 },
 ];
 
 export const rows = [

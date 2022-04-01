@@ -4,11 +4,11 @@ import { rows, columns } from "../../data/missionListData";
 export default function MissionList(props) {
   return (
     <div className="tableMission">
-      <div style={{ height: 400, width: "75%" }}>
+      <div style={{ height: 400, width: "82.5%" }}>
         <DataGrid
           rows={props.rows}
-          columns={columns}
-          pageSize={5}
+          columns={props.columns}
+          pageSize={10}
           checkboxSelection
         />
       </div>

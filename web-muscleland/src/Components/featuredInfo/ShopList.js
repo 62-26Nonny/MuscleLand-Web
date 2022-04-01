@@ -7,7 +7,7 @@ export default function UserList(props) {
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={props.rows}
-          columns={columns}
+          columns={props.columns}
           pageSize={5}
           checkboxSelection
         />

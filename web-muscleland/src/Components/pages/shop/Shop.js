@@ -2,7 +2,6 @@ import ShopInfo from "../../featuredInfo/ShopInfo";
 import ShopList from "../../featuredInfo/ShopList";
 import { useState, useEffect } from "react";
 import { axiosNoAuthenInstance } from "../../../axios";
-import { rows } from "../../../data/shopTableData";
 
 export default function Shop() {
 
@@ -15,21 +14,17 @@ export default function Shop() {
       setUserData(res.data);
       //console.log(res.data) 
     })
-  },[])
 
-
-  useEffect(() => {
     axiosNoAuthenInstance.get('/item').then((res) =>{
       setItemData(res.data);
-      //console.log(res.data)
+      //console.log(res.data.results)
     })
-  },[])
 
-  useEffect(() => {
     axiosNoAuthenInstance.get('/inventory').then((res) =>{
       setInventoryData(res.data);
       //console.log(res.data)
     })
+
   },[])
 
   function countcheck(x) {
@@ -58,7 +53,6 @@ export default function Shop() {
     return p;
   }, {});
 
-  console.log(rows)
   // console.log(inventoryArr)
   // console.log(counts)
   // console.log(countstype)
@@ -70,18 +64,22 @@ export default function Shop() {
       category: val.type,
       cost: val.price,
       ownedRate: countcheck(counts[val.itemID]) /userData.length * 100,
-      usedRate: "100"
     }
   }))
 
   const typeOfItem = [
-  { name: 'Item Amount (item)', costumes	: countcheck(countstype.Costume), accessories: countcheck(countstype.Accessories), booster: countcheck(countstype.Accessories)},
+  { name: 'Item Amount (item)', costumes	: countcheck(countstype.Costume)},
   {name: 'Worst seller', costumes: 'Yellow shirt', accessories: 'Sunglasses', booster: 'Durian juice'},
   {name: 'Best seller', costumes: 'Ricardo underwear', accessories: 'Smart watch', booster: 'M150'}
   ]
 
-
-  console.log(typeOfItem);
+  const columns = [
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "name", headerName: "Name", width: 150 },
+    { field: "category", headerName: "Category", width: 130 },
+    { field: "cost", headerName: "Cost", width: 100 },
+    { field: "ownedRate", headerName: "Owned rate (%)", width: 130 },
+  ];
 
   const itemcount = (Array.from(itemData).map((val,key) => {
     return {
@@ -89,12 +87,10 @@ export default function Shop() {
     }
   }))
 
-  //console.log(itemcount)
-
   return (
     <div className="shop">
-      <ShopInfo rows = {typeOfItem}/>
-      <ShopList rows = {missionList} />
+      <ShopInfo rows = {typeOfItem} />
+      <ShopList rows = {missionList} columns = {columns}/>
     </div>
   );
 
