@@ -147,6 +147,11 @@ app.post("/quest/accept/:id", async (req, res) =>{
     res.json({ id: results[0] });   
 })
 
+app.post("/quest/complete/:id", async (req, res) =>{
+    const results = await db.QuestCompleteUpdate(req.params.id);
+    res.json({ id: results[0] });   
+})
+
 app.get("/quest/:id", async (req, res) =>{
     res.json( await db.QuestGetById(req.params.id) );
 })

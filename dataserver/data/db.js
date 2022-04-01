@@ -145,9 +145,12 @@ function QuestDelete(questID) {
 };
 
 function QuestAcceptUpdate(questID) {
-    return knex("dungeonstat").where({questID: questID}).increment({accept: 1});
+    return knex("quest").where({questID: questID}).increment({accept: 1});
 };
 
+function QuestCompleteUpdate(questID) {
+    return knex("quest").where({questID: questID}).increment({complete: 1});
+};
 function ExplorationGet() {
     return knex("exploration").select("*");
 };
@@ -250,6 +253,7 @@ module.exports = {
     QuestUpdate,
     QuestDelete,
     QuestAcceptUpdate,
+    QuestCompleteUpdate,
     ExplorationGet,
     ExplorationGetById,
     ExplorationInsert,
