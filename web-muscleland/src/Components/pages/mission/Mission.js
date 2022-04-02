@@ -35,14 +35,6 @@ export default function Mission() {
     let UserAchievementdata;
 
     async function GetQuestData() {
-<<<<<<< Updated upstream
-      let res = await axiosNoAuthenInstance.get('/quest')
-      Questdata = res.data
-      setQuestData(Questdata)
-      console.log(Questdata)
-    }
-
-=======
       let res = await axiosNoAuthenInstance.get("/quest");
       Questdata = res.data;
       console.log(Questdata);
@@ -53,7 +45,6 @@ export default function Mission() {
       console.log(QuestStatdata);
       setmergequest(mergeArrayObjects(Questdata, QuestStatdata));
     }
->>>>>>> Stashed changes
     async function GetAchievementData() {
       let res = await axiosNoAuthenInstance.get("/achievement");
       Achievementdata = res.data;
@@ -66,16 +57,6 @@ export default function Mission() {
       SetUserAchievement(UserAchievementdata);
     }
 
-<<<<<<< Updated upstream
-    GetQuestData()
-    GetAchievementData()
-    GetUserAchievementData()
-  },[])
-  
-  const questListData = (QuestData.map((val,key) => {
-    return { id: val.questID, description: val.description ,type: val.type , clearRate: NaNCheck(val.totalcomplest/val.totalaccept) }
-  }))
-=======
     GetQuestData();
     GetQuestStatData();
     GetAchievementData();
@@ -90,7 +71,6 @@ export default function Mission() {
       clearRate: NaNCheck(val.totalcomplest / val.totalaccept),
     };
   });
->>>>>>> Stashed changes
 
   const achievementListData = Achievement.map((val, key) => {
     return {
@@ -122,11 +102,7 @@ export default function Mission() {
   const findAverageAge = (arr) => {
     const { length } = arr;
     return arr.reduce((acc, val) => {
-<<<<<<< Updated upstream
-    return acc + (val.clearRate/length);
-=======
       return acc + val.clearRate / length;
->>>>>>> Stashed changes
     }, 0);
   };
 

@@ -23,13 +23,9 @@ export default function ShopTable(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
-<<<<<<< Updated upstream
-                    <TableCell align="left"></TableCell>
-=======
                     <TableCell align="right"></TableCell>
                     <TableCell align="right"></TableCell>
                     <TableCell align="right"></TableCell>
->>>>>>> Stashed changes
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -41,13 +37,9 @@ export default function ShopTable(props) {
                       <TableCell component="th" scope="row">
                         {row.name}
                       </TableCell>
-<<<<<<< Updated upstream
-                      <TableCell align="left">{row.costumes} </TableCell>
-=======
                       <TableCell align="right">{row.costumes} </TableCell>
                       <TableCell align="right">{row.accessories}</TableCell>
                       <TableCell align="right">{row.booster}</TableCell>
->>>>>>> Stashed changes
                     </TableRow>
                   ))}
                 </TableBody>
