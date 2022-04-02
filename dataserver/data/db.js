@@ -4,8 +4,8 @@ function UserGet() {
     return knex("User").select("*");
 };
 
-function UserSum() {
-    return knex("User").sum("ID");
+function UserCount() {
+    return knex("User").count("ID");
 };
 
 function UserGetByID(id) {
@@ -224,7 +224,7 @@ function AchievementInsert(info) {
 
 module.exports = {
     UserGet,
-    UserSum,
+    UserCount,
     UserInsert,                
     UserGetByID,
     UserUpdate,
