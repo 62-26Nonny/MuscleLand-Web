@@ -54,7 +54,7 @@ export default function Shop() {
           name: val.itemname,
           category: val.type,
           cost: val.price,
-          ownedRate: countcheck(counts[val.itemID]) /userData.length * 100,
+          ownedRate: countcheck(counts[val.itemID])/userData.length * 100,
         }
       })
 
@@ -65,7 +65,7 @@ export default function Shop() {
       setItemList(itemList)
       
     }
-  },[itemData])
+  },[itemData,userData])
 
   useEffect(() => 
   {
@@ -83,8 +83,8 @@ export default function Shop() {
         
       setTypeOfItem([
         { name: 'Item Amount (item)', costumes: countcheck(countstype.Costume) },
-        { name: 'Worst seller', costumes: itemList[0] === undefined ? "" : itemList[0].name},
-        { name: 'Best seller', costumes: 'Ricardo underwear' }
+        { name: 'Best seller', costumes: itemList[0] === undefined ? "" : itemList[0].name},
+        { name: 'Worst seller', costumes: itemList[itemList.length-1] === undefined ? "" : itemList[itemList.length-1].name }
       ])
     }
   }, [itemList])

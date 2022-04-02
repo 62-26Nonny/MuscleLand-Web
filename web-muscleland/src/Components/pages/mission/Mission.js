@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { axiosNoAuthenInstance } from "../../../axios";
 
 export default function Mission() {
-  const [mergeachievement, setmergeachievement] = useState([]);
   const [Achievement, SetAchievement] = useState([]);
   const [UserAchievement, SetUserAchievement] = useState([]);
   const [QuestData, setQuestData] = useState([]);
@@ -38,13 +37,9 @@ export default function Mission() {
       let res = await axiosNoAuthenInstance.get("/quest");
       Questdata = res.data;
       console.log(Questdata);
+      setQuestData(Questdata)
     }
-    async function GetQuestStatData() {
-      let res = await axiosNoAuthenInstance.get("/queststat");
-      QuestStatdata = res.data;
-      console.log(QuestStatdata);
-      setmergequest(mergeArrayObjects(Questdata, QuestStatdata));
-    }
+
     async function GetAchievementData() {
       let res = await axiosNoAuthenInstance.get("/achievement");
       Achievementdata = res.data;
@@ -58,12 +53,11 @@ export default function Mission() {
     }
 
     GetQuestData();
-    GetQuestStatData();
     GetAchievementData();
     GetUserAchievementData();
   }, []);
 
-  const questListData = mergequest.map((val, key) => {
+  const questListData = QuestData.map((val, key) => {
     return {
       id: val.questID,
       description: val.description,

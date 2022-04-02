@@ -4,10 +4,11 @@ import { rows, columns } from "../../data/userListData";
 export default function UserList(props) {
   return (
     <div className="tableList">
-      <div style={{ height: 400, width: "95%" }}>
+      <div style={{ height: 370, width: "95%" }}>
+      <h3><strong>Player List</strong></h3>
         <DataGrid
           rows={props.rows}
-          columns={columns}
+          columns={props.columns}
           pageSize={5}
           checkboxSelection
         />

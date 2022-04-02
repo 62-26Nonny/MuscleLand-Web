@@ -5,10 +5,8 @@ import { Container, Row, Col } from "react-bootstrap";
 
 export default function UserList(props) {
   return (
-    <Container>
-      <Col lg={10} xl="auto">
         <div className="tableList">
-          <div style={{ height: 400, width: "100%" }}>
+          <div style={{ height: 400, width: "90%" }}>
             <DataGrid
               rows={props.rows}
               columns={props.columns}
@@ -17,7 +15,5 @@ export default function UserList(props) {
             />
           </div>
         </div>
-      </Col>
-    </Container>
   );
 }
