@@ -65,8 +65,8 @@ export default function Mission() {
       console.log(lvl)
     }
 
-    async function GetUserSum() {
-      let res = await axiosNoAuthenInstance.get("/usersum");
+    async function GetUserCount() {
+      let res = await axiosNoAuthenInstance.get("/usercount");
       setUser(res.data);
     }
 
@@ -74,8 +74,10 @@ export default function Mission() {
     GetQuestData();
     GetAchievementData();
     GetUserAchievementData();
-    GetUserSum()
+    GetUserCount()
   }, []);
+
+  console.log(User)
 
   const reducedachievement = UserAchievement.reduce((acc, { curlvl, arcID }) => (
     { 
@@ -110,10 +112,10 @@ export default function Mission() {
     return {
       id: val.arcID,
       description: "Play " + val.arcname + DungeonNaNCheck(val.difficulty) +  val.times + " time",
-      level1: NaNCheck(reducedachievement[val.arcID][1])/4 * 100,
-      level2: NaNCheck(reducedachievement[val.arcID][2])/4 * 100,
-      level3: NaNCheck(reducedachievement[val.arcID][3])/4 * 100,
-      level4: NaNCheck(reducedachievement[val.arcID][4])/4 * 100,
+      level1: NaNCheck(reducedachievement[val.arcID][1]) / 4 * 100,
+      level2: NaNCheck(reducedachievement[val.arcID][2]) / 4 * 100,
+      level3: NaNCheck(reducedachievement[val.arcID][3]) / 4 * 100,
+      level4: NaNCheck(reducedachievement[val.arcID][4]) / 4 * 100,
     };
   });
 

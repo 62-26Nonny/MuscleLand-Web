@@ -5,7 +5,7 @@ function UserGet() {
 };
 
 function UserCount() {
-    return knex("User").count("ID");
+    return knex("User").count("ID as usercount") ;
 };
 
 function UserGetByID(id) {
