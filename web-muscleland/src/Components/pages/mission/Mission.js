@@ -8,6 +8,8 @@ export default function Mission() {
   const [Achievement, SetAchievement] = useState([]);
   const [UserAchievement, SetUserAchievement] = useState([]);
   const [QuestData, setQuestData] = useState([]);
+  const [Level, setLevel] = useState([]);
+  const [User, setUser] = useState([]);
 
   function mergeArrayObjects(arr1, arr2) {
     return arr1.map((item, i) => {
@@ -29,7 +31,6 @@ export default function Mission() {
 
   useEffect(() => {
     let Questdata;
-    let QuestStatdata;
     let Achievementdata;
     let UserAchievementdata;
 
@@ -50,12 +51,51 @@ export default function Mission() {
       let res = await axiosNoAuthenInstance.get("/userachievement");
       UserAchievementdata = res.data;
       SetUserAchievement(UserAchievementdata);
+
+      const lvl = res.data.reduce((p, c) => {
+        var curlvl = c.curlvl;
+        if (!p.hasOwnProperty(curlvl)) {
+          p[curlvl] = 0;
+        }
+        p[curlvl]++;
+        return p;
+      }, {});
+      
+      setLevel(lvl);
+      console.log(lvl)
     }
+
+    async function GetUserSum() {
+      let res = await axiosNoAuthenInstance.get("/usersum");
+      setUser(res.data);
+    }
+
 
     GetQuestData();
     GetAchievementData();
     GetUserAchievementData();
+    GetUserSum()
   }, []);
+
+  const reducedachievement = UserAchievement.reduce((acc, { curlvl, arcID }) => (
+    { 
+      ...acc, 
+      [arcID]: acc[arcID] ? [ ...acc[arcID], { curlvl }] : [ { curlvl } ],
+    }
+  ), {});
+
+  for (let i = 1; i <= Achievement.length; i++) {
+    reducedachievement[i] =  reducedachievement[i].reduce((p, c) => {
+      var curlvl = c.curlvl;
+      if (!p.hasOwnProperty(curlvl)) {
+        p[curlvl] = 0;
+      }
+      p[curlvl]++;
+      return p;
+    }, {});
+  }
+
+  console.log(reducedachievement)
 
   const questListData = QuestData.map((val, key) => {
     return {
@@ -69,28 +109,29 @@ export default function Mission() {
   const achievementListData = Achievement.map((val, key) => {
     return {
       id: val.arcID,
-      description:
-        "Play " +
-        val.arcname +
-        DungeonNaNCheck(val.difficulty) +
-        val.times +
-        " time",
-      clearRate: 0,
+      description: "Play " + val.arcname + DungeonNaNCheck(val.difficulty) +  val.times + " time",
+      level1: NaNCheck(reducedachievement[val.arcID][1])/4 * 100,
+      level2: NaNCheck(reducedachievement[val.arcID][2])/4 * 100,
+      level3: NaNCheck(reducedachievement[val.arcID][3])/4 * 100,
+      level4: NaNCheck(reducedachievement[val.arcID][4])/4 * 100,
     };
   });
 
   console.log(achievementListData);
   const questColumns = [
-    { field: "id", headerName: "Mission ID", width: 130 },
+    { field: "id", headerName: "Mission ID", width: 50 },
     { field: "description", headerName: "Description", width: 260 },
     { field: "type", headerName: "Type", width: 130 },
     { field: "clearRate", headerName: "Clear rate (%)", width: 130 },
   ];
 
   const achievementColumns = [
-    { field: "id", headerName: "Achievement ID", width: 130 },
+    { field: "id", headerName: "ID", width: 50 },
     { field: "description", headerName: "Description", width: 280 },
-    { field: "clearRate", headerName: "Clear rate (%)", width: 130 },
+    { field: "level1", headerName: "level 1 (%)", width: 80 },
+    { field: "level2", headerName: "level 2(%)", width: 80 },
+    { field: "level3", headerName: "level 3(%)", width: 80},
+    { field: "level4", headerName: "level 4(%)", width: 80}
   ];
 
   const findAverageAge = (arr) => {
