@@ -1,6 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "./missionList.css";
-import { rows, columns } from "../../data/missionListData";
+
 export default function MissionList(props) {
   return (
     <div className="tableMission">

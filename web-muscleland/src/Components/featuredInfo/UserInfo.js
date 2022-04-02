@@ -6,7 +6,11 @@ export default function UserInfo() {
     <Container>
       <Row>
         <div className="featured">
-          <Col xs={2} md={4} lg={6}>
+<<<<<<< Updated upstream
+          <Col lg="auto" xl={6}>
+=======
+          <Col xs={2} md={3} lg="auto" xl={6}>
+>>>>>>> Stashed changes
             <div className="featuredItem">
               <span className="featuredTitle">Active Player</span>
               <div className="player">
@@ -15,7 +19,11 @@ export default function UserInfo() {
               </div>
             </div>
           </Col>
-          <Col xs={2} md={4} lg={6}>
+<<<<<<< Updated upstream
+          <Col lg="auto" xl={6}>
+=======
+          <Col xs={2} md={3} lg="auto" xl={6}>
+>>>>>>> Stashed changes
             <div className="featuredItem">
               <span className="featuredTitle">Inactive Player</span>
               <div className="player">
@@ -24,7 +32,11 @@ export default function UserInfo() {
               </div>
             </div>
           </Col>
-          <Col xs={2} md={4} lg={6}>
+<<<<<<< Updated upstream
+          <Col lg="auto" xl={6}>
+=======
+          <Col xs={2} md={3} lg="auto" xl={6}>
+>>>>>>> Stashed changes
             <div className="featuredItem">
               <span className="featuredTitle">Total Player</span>
               <div className="player">

@@ -9,7 +9,6 @@ export default function Shop() {
   const [userData, setUserData] = useState([]);
   const [typeOfItem, setTypeOfItem] = useState([]);
   const [itemList, setItemList] = useState([]);
-  var firstLoad = true;
 
   useEffect(() => {
     axiosNoAuthenInstance.get('/user').then((res) =>{

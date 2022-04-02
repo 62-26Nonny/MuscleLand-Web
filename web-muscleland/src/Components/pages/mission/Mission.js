@@ -5,55 +5,68 @@ import { useState, useEffect } from "react";
 import { axiosNoAuthenInstance } from "../../../axios";
 
 export default function Mission() {
-
   const [mergeachievement, setmergeachievement] = useState([]);
   const [Achievement, SetAchievement] = useState([]);
   const [UserAchievement, SetUserAchievement] = useState([]);
   const [QuestData, setQuestData] = useState([]);
 
-  function mergeArrayObjects(arr1,arr2){
-    return arr1.map((item,i)=>{
-       if(item.id === arr2[i].id){
-           //merging two objects
-         return Object.assign({},item,arr2[i])
-       }
-    })
+  function mergeArrayObjects(arr1, arr2) {
+    return arr1.map((item, i) => {
+      if (item.id === arr2[i].id) {
+        //merging two objects
+        return Object.assign({}, item, arr2[i]);
+      }
+    });
   }
 
   function NaNCheck(num) {
-    if(!num) return 0
-    return num
+    if (!num) return 0;
+    return num;
   }
   function DungeonNaNCheck(str) {
-    if(!str) return " "
-    return " in " + str + " mode "
+    if (!str) return " ";
+    return " in " + str + " mode ";
   }
 
   useEffect(() => {
-    let Questdata
-    let QuestStatdata
-    let Achievementdata
-    let UserAchievementdata
+    let Questdata;
+    let QuestStatdata;
+    let Achievementdata;
+    let UserAchievementdata;
 
     async function GetQuestData() {
+<<<<<<< Updated upstream
       let res = await axiosNoAuthenInstance.get('/quest')
       Questdata = res.data
       setQuestData(Questdata)
       console.log(Questdata)
     }
 
+=======
+      let res = await axiosNoAuthenInstance.get("/quest");
+      Questdata = res.data;
+      console.log(Questdata);
+    }
+    async function GetQuestStatData() {
+      let res = await axiosNoAuthenInstance.get("/queststat");
+      QuestStatdata = res.data;
+      console.log(QuestStatdata);
+      setmergequest(mergeArrayObjects(Questdata, QuestStatdata));
+    }
+>>>>>>> Stashed changes
     async function GetAchievementData() {
-      let res = await axiosNoAuthenInstance.get('/achievement')
-      Achievementdata = res.data
-      SetAchievement(Achievementdata)
+      let res = await axiosNoAuthenInstance.get("/achievement");
+      Achievementdata = res.data;
+      SetAchievement(Achievementdata);
     }
 
     async function GetUserAchievementData() {
-      let res = await axiosNoAuthenInstance.get('/userachievement')
-      UserAchievementdata = res.data
-      SetUserAchievement(UserAchievementdata)
+      let res = await axiosNoAuthenInstance.get("/userachievement");
+      UserAchievementdata = res.data;
+      SetUserAchievement(UserAchievementdata);
     }
 
+<<<<<<< Updated upstream
     GetQuestData()
     GetAchievementData()
     GetUserAchievementData()
@@ -62,12 +75,37 @@ export default function Mission() {
   const questListData = (QuestData.map((val,key) => {
     return { id: val.questID, description: val.description ,type: val.type , clearRate: NaNCheck(val.totalcomplest/val.totalaccept) }
   }))
+=======
+    GetQuestData();
+    GetQuestStatData();
+    GetAchievementData();
+    GetUserAchievementData();
+  }, []);
 
-  const achievementListData = (Achievement.map((val,key) => {
-    return { id: val.arcID, description: "Play " + val.arcname + DungeonNaNCheck(val.difficulty) + val.times +" time", clearRate: 0 }
-  }))
+  const questListData = mergequest.map((val, key) => {
+    return {
+      id: val.questID,
+      description: val.description,
+      type: val.type,
+      clearRate: NaNCheck(val.totalcomplest / val.totalaccept),
+    };
+  });
+>>>>>>> Stashed changes
 
-  console.log(achievementListData)
+  const achievementListData = Achievement.map((val, key) => {
+    return {
+      id: val.arcID,
+      description:
+        "Play " +
+        val.arcname +
+        DungeonNaNCheck(val.difficulty) +
+        val.times +
+        " time",
+      clearRate: 0,
+    };
+  });
+
+  console.log(achievementListData);
   const questColumns = [
     { field: "id", headerName: "Mission ID", width: 130 },
     { field: "description", headerName: "Description", width: 260 },
@@ -84,17 +122,21 @@ export default function Mission() {
   const findAverageAge = (arr) => {
     const { length } = arr;
     return arr.reduce((acc, val) => {
+<<<<<<< Updated upstream
     return acc + (val.clearRate/length);
+=======
+      return acc + val.clearRate / length;
+>>>>>>> Stashed changes
     }, 0);
   };
 
   return (
-    <div className="mission"> 
-      <MissionInfo AverageMission = {findAverageAge(questListData)} />
+    <div className="mission">
+      <MissionInfo AverageMission={findAverageAge(questListData)} />
       {/* <MissionList rows = {questListData} />
       <MissionList rows = {achievementListData} /> */}
-      <MissionList rows = {questListData} columns = {questColumns}/>
-      <MissionList rows = {achievementListData} columns = {achievementColumns}/>
+      <MissionList rows={questListData} columns={questColumns} />
+      <MissionList rows={achievementListData} columns={achievementColumns} />
       <div>
         {/* {AchievementListData.map((val, key) => {
           return(
@@ -107,5 +149,3 @@ export default function Mission() {
     </div>
   );
 }
-
-

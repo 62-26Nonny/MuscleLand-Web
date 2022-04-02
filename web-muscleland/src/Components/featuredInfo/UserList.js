@@ -3,7 +3,7 @@ import "./userList.css";
 import { rows, columns } from "../../data/userListData";
 export default function UserList(props) {
   return (
-    <div className="table">
+    <div className="tableList">
       <div style={{ height: 400, width: "95%" }}>
         <DataGrid
           rows={props.rows}
