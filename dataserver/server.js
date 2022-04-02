@@ -17,8 +17,8 @@ app.get("/user", async (req, res) =>{
     res.json(await db.UserGet());
 })
 
-app.get("/usersum", async (req, res) =>{
-    res.json(await db.UserSum());
+app.get("/usercount", async (req, res) =>{
+    res.json(await db.UserCount());
 })
 
 app.get("/user/:id", async (req, res) =>{
