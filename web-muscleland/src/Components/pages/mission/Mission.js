@@ -14,7 +14,7 @@ export default function Mission() {
   const [Level, setLevel] = useState([]);
   const [User, setUser] = useState([]);
   const [AchievementListData, setAchievementListData] = useState([]);
-  const [dataDistance,setDataDistance] = useState([])
+  const [dataDistance, setDataDistance] = useState([]);
 
   function mergeArrayObjects(arr1, arr2) {
     return arr1.map((item, i) => {
@@ -47,12 +47,11 @@ export default function Mission() {
           id: val.questID,
           description: val.description,
           type: val.type,
-          clearRate: NaNCheck(val.totalcomplest / val.totalaccept)
+          clearRate: NaNCheck(val.totalcomplest / val.totalaccept),
         };
       });
-      setQuestDataList(Questdata)
-      setQuestData(res.data)
-      
+      setQuestDataList(Questdata);
+      setQuestData(res.data);
     }
 
     async function GetAchievementData() {
@@ -74,9 +73,9 @@ export default function Mission() {
         p[curlvl]++;
         return p;
       }, {});
-      
+
       setLevel(lvl);
-      console.log(lvl)
+      console.log(lvl);
     }
 
     async function GetUserCount() {
@@ -84,45 +83,68 @@ export default function Mission() {
       setUser(res.data);
     }
 
-
     GetQuestData();
     GetAchievementData();
     GetUserAchievementData();
-    GetUserCount()
+    GetUserCount();
   }, []);
 
   useEffect(() => {
+    const reducedachievement = UserAchievement.reduce(
+      (acc, { curlvl, arcID }) => ({
+        ...acc,
+        [arcID]: acc[arcID] ? [...acc[arcID], { curlvl }] : [{ curlvl }],
+      }),
+      {}
+    );
 
-    const reducedachievement = UserAchievement.reduce((acc, { curlvl, arcID }) => (
-      { 
-        ...acc, 
-        [arcID]: acc[arcID] ? [ ...acc[arcID], { curlvl }] : [ { curlvl } ],
-      }
-    ), {});
-  
     for (let i = 1; i <= Achievement.length; i++) {
-      reducedachievement[i] =  reducedachievement === undefined ? "" : reducedachievement[i].reduce((p, c) => {
-        var curlvl = c.curlvl;
-        if (!p.hasOwnProperty(curlvl)) {
-          p[curlvl] = 0;
-        }
-        p[curlvl]++;
-        return p;
-      }, {});
+      reducedachievement[i] =
+        reducedachievement === undefined
+          ? ""
+          : reducedachievement[i].reduce((p, c) => {
+              var curlvl = c.curlvl;
+              if (!p.hasOwnProperty(curlvl)) {
+                p[curlvl] = 0;
+              }
+              p[curlvl]++;
+              return p;
+            }, {});
     }
 
     const achievementListData = Achievement.map((val, key) => {
       return {
         id: val.arcID,
-        description: "Play " + val.arcname + DungeonNaNCheck(val.difficulty) +  val.times + " time",
-        level1: User[0] === undefined ? "" : NaNCheck(reducedachievement[val.arcID][1]) / User[0].usercount  * 100,
-        level2: User[0] === undefined ? "" : NaNCheck(reducedachievement[val.arcID][2]) / User[0].usercount  * 100,
-        level3: User[0] === undefined ? "" : NaNCheck(reducedachievement[val.arcID][3]) / User[0].usercount  * 100,
-        level4: User[0] === undefined ? "" : NaNCheck(reducedachievement[val.arcID][4]) / User[0].usercount  * 100,
+        description:
+          "Play " +
+          val.arcname +
+          DungeonNaNCheck(val.difficulty) +
+          val.times +
+          " time",
+        level1:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][1]) / User[0].usercount) *
+              100,
+        level2:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][2]) / User[0].usercount) *
+              100,
+        level3:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][3]) / User[0].usercount) *
+              100,
+        level4:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][4]) / User[0].usercount) *
+              100,
       };
     });
 
-    setAchievementListData(achievementListData)
+    setAchievementListData(achievementListData);
 
     // const dataDistance = [
     //   {
@@ -145,9 +167,8 @@ export default function Mission() {
 
     // console.log(dataDistance)
     // setDataDistance(dataDistance)
+  }, [User, UserAchievement, Achievement, Level]);
 
-  }, [User,UserAchievement,Achievement,Level]);
-  
   const questColumns = [
     { field: "id", headerName: "Mission ID", width: 50 },
     { field: "description", headerName: "Description", width: 260 },
@@ -160,18 +181,18 @@ export default function Mission() {
     { field: "description", headerName: "Description", width: 280 },
     { field: "level1", headerName: "level 1 (%)", width: 80 },
     { field: "level2", headerName: "level 2(%)", width: 80 },
-    { field: "level3", headerName: "level 3(%)", width: 80},
-    { field: "level4", headerName: "complete", width: 80}
+    { field: "level3", headerName: "level 3(%)", width: 80 },
+    { field: "level4", headerName: "complete", width: 80 },
   ];
 
-  function findAverageAge(arr){
+  function findAverageAge(arr) {
     const { length } = arr;
     return arr.reduce((acc, val) => {
       return acc + val.clearRate / length;
     }, 0);
-  };
+  }
 
-  console.log(Level)
+  console.log(Level);
   return (
     <div className="mission">
       <MissionInfo AverageMission={findAverageAge(questDataList)} />

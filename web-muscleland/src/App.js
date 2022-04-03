@@ -7,10 +7,16 @@ import Dungeon from "./Components/pages/dungeon/Dungeon";
 import Exploration from "./Components/pages/exploration/Exploration";
 import Mission from "./Components/pages/mission/Mission";
 import Shop from "./Components/pages/shop/Shop";
-import RisingTab from "./Components/dungeonTab/risingKnee/RisingKnee";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./Components/login/Login";
+import React, { useState } from "react";
 
 function App() {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    return <Login />;
+  }
   return (
     <Router>
       <Topbar />
