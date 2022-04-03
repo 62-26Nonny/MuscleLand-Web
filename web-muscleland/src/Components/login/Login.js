@@ -34,20 +34,15 @@ export default function Login() {
       username,
       password,
     });
-    if ("accessToken" in response) {
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("user", JSON.stringify(response.user));
-      window.location.href = "/users";
-    }
 
     if ("accessToken" in response) {
       swal("Success", response.message, "success", {
         buttons: false,
-        timer: 2000,
+        timer: 900,
       }).then((value) => {
-        localStorage.setItem("accessToken", response["accessToken"]);
-        localStorage.setItem("user", JSON.stringify(response["user"]));
-        window.location.href = "/profile";
+        localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("user", JSON.stringify(response.user));
+        window.location.href = "/users";
       });
     } else {
       swal("Failed", response.message, "error");
