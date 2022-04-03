@@ -15,7 +15,7 @@ import swal from "sweetalert";
 const theme = createTheme();
 
 async function loginUser(credentials) {
-  return fetch("http://localhost:3000/login", {
+  return fetch("https://www.mecallapi.com/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
