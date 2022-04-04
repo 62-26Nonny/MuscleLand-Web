@@ -24,17 +24,17 @@ export default function RisingKnee() {
   }
   console.log(RisingKneeData)
   console.log(easy, medium, hard)
-  var difficultyRation = [
+  var difficultyRatio = [
     { name: "easy", value: easy },
     { name: "medium", value: medium },
     { name: "hard", value: hard },
   ];
-  console.log(difficultyRation)
+  console.log(difficultyRatio)
   return (
     <div>
       <div>
         <RisingKneeinfo data={RisingKneeData}/>
-        <MyPieChart data={difficultyRation}/>
+        <MyPieChart data={difficultyRatio}/>
       </div>
     </div>
   );
