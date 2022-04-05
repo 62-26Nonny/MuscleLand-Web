@@ -14,15 +14,15 @@ export default function RisingKnee(props) {
   return (
     <div className="info">
       <div className="infoItem">
-        <span className="total">Total played</span>
+        <span className="total">Total played </span>
         <span className="total">{Total} Time</span>
       </div>
       <div className="infoItem">
-        <span className="average">Average played</span>
+        <span className="average">Average played </span>
         <span className="average">{Average} Time/User</span>
       </div>
       <div className="infoItem">
-        <span className="complete">Complete rate</span>
+        <span className="complete">Complete rate </span>
         <span className="complete">{Complete} %</span>
       </div>
     </div>

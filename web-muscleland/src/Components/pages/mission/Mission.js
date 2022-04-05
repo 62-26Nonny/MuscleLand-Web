@@ -1,15 +1,20 @@
 import MissionInfo from "../../featuredInfo/MissionInfo";
 import "./mission.css";
+import BarChart from "../../chart/BarChart";
 import MissionList from "../../featuredInfo/MissionList";
 import { useState, useEffect } from "react";
 import { axiosNoAuthenInstance } from "../../../axios";
+import { columns } from "../../../data/shopListData";
 
 export default function Mission() {
   const [Achievement, SetAchievement] = useState([]);
   const [UserAchievement, SetUserAchievement] = useState([]);
-  const [QuestData, setQuestData] = useState([]);
+  const [questDataList, setQuestDataList] = useState([]);
+  const [questData, setQuestData] = useState([]);
   const [Level, setLevel] = useState([]);
   const [User, setUser] = useState([]);
+  const [AchievementListData, setAchievementListData] = useState([]);
+  const [dataDistance, setDataDistance] = useState([]);
 
   function mergeArrayObjects(arr1, arr2) {
     return arr1.map((item, i) => {
@@ -24,6 +29,7 @@ export default function Mission() {
     if (!num) return 0;
     return num;
   }
+
   function DungeonNaNCheck(str) {
     if (!str) return " ";
     return " in " + str + " mode ";
@@ -36,9 +42,16 @@ export default function Mission() {
 
     async function GetQuestData() {
       let res = await axiosNoAuthenInstance.get("/quest");
-      Questdata = res.data;
-      console.log(Questdata);
-      setQuestData(Questdata)
+      Questdata = res.data.map((val, key) => {
+        return {
+          id: val.questID,
+          description: val.description,
+          type: val.type,
+          clearRate: NaNCheck(val.totalcomplest / val.totalaccept),
+        };
+      });
+      setQuestDataList(Questdata);
+      setQuestData(res.data);
     }
 
     async function GetAchievementData() {
@@ -60,9 +73,9 @@ export default function Mission() {
         p[curlvl]++;
         return p;
       }, {});
-      
+
       setLevel(lvl);
-      console.log(lvl)
+      console.log(lvl);
     }
 
     async function GetUserCount() {
@@ -70,56 +83,92 @@ export default function Mission() {
       setUser(res.data);
     }
 
-
     GetQuestData();
     GetAchievementData();
     GetUserAchievementData();
-    GetUserCount()
+    GetUserCount();
   }, []);
 
-  console.log(User)
+  useEffect(() => {
+    const reducedachievement = UserAchievement.reduce(
+      (acc, { curlvl, arcID }) => ({
+        ...acc,
+        [arcID]: acc[arcID] ? [...acc[arcID], { curlvl }] : [{ curlvl }],
+      }),
+      {}
+    );
 
-  const reducedachievement = UserAchievement.reduce((acc, { curlvl, arcID }) => (
-    { 
-      ...acc, 
-      [arcID]: acc[arcID] ? [ ...acc[arcID], { curlvl }] : [ { curlvl } ],
+    for (let i = 1; i <= Achievement.length; i++) {
+      reducedachievement[i] =
+        reducedachievement === undefined
+          ? ""
+          : reducedachievement[i].reduce((p, c) => {
+              var curlvl = c.curlvl;
+              if (!p.hasOwnProperty(curlvl)) {
+                p[curlvl] = 0;
+              }
+              p[curlvl]++;
+              return p;
+            }, {});
     }
-  ), {});
 
-  for (let i = 1; i <= Achievement.length; i++) {
-    reducedachievement[i] =  reducedachievement[i].reduce((p, c) => {
-      var curlvl = c.curlvl;
-      if (!p.hasOwnProperty(curlvl)) {
-        p[curlvl] = 0;
-      }
-      p[curlvl]++;
-      return p;
-    }, {});
-  }
+    const achievementListData = Achievement.map((val, key) => {
+      return {
+        id: val.arcID,
+        description:
+          "Play " +
+          val.arcname +
+          DungeonNaNCheck(val.difficulty) +
+          val.times +
+          " time",
+        level1:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][1]) / User[0].usercount) *
+              100,
+        level2:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][2]) / User[0].usercount) *
+              100,
+        level3:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][3]) / User[0].usercount) *
+              100,
+        level4:
+          User[0] === undefined
+            ? ""
+            : (NaNCheck(reducedachievement[val.arcID][4]) / User[0].usercount) *
+              100,
+      };
+    });
 
-  console.log(reducedachievement)
+    setAchievementListData(achievementListData);
 
-  const questListData = QuestData.map((val, key) => {
-    return {
-      id: val.questID,
-      description: val.description,
-      type: val.type,
-      clearRate: NaNCheck(val.totalcomplest / val.totalaccept),
-    };
-  });
+    // const dataDistance = [
+    //   {
+    //     Today: (User[0] === undefined) || (Level === undefined) ? "5" : NaNCheck(Level["1"] / User[0].usercount) / Achievement.length,
+    //     Km: "Level 1",
+    //   },
+    //   {
+    //     Today: (User[0] === undefined) || (Level === undefined) ? "5" : NaNCheck(Level["2"] / User[0].usercount) / Achievement.length,
+    //     Km: "Level 2",
+    //   },
+    //   {
+    //     Today: (User[0] === undefined) || (Level === undefined) ? "5" : NaNCheck(Level["3"] / User[0].usercount) / Achievement.length,
+    //     Km: "Level 3",
+    //   },
+    //   {
+    //     Today: (User[0] === undefined) || (Level === undefined) ? "5" : NaNCheck(Level["4"] / User[0].usercount) / Achievement.length,
+    //     Km: "complete",
+    //   },
+    // ];
 
-  const achievementListData = Achievement.map((val, key) => {
-    return {
-      id: val.arcID,
-      description: "Play " + val.arcname + DungeonNaNCheck(val.difficulty) +  val.times + " time",
-      level1: NaNCheck(reducedachievement[val.arcID][1]) / 4 * 100,
-      level2: NaNCheck(reducedachievement[val.arcID][2]) / 4 * 100,
-      level3: NaNCheck(reducedachievement[val.arcID][3]) / 4 * 100,
-      level4: NaNCheck(reducedachievement[val.arcID][4]) / 4 * 100,
-    };
-  });
+    // console.log(dataDistance)
+    // setDataDistance(dataDistance)
+  }, [User, UserAchievement, Achievement, Level]);
 
-  console.log(achievementListData);
   const questColumns = [
     { field: "id", headerName: "Mission ID", width: 50 },
     { field: "description", headerName: "Description", width: 260 },
@@ -132,24 +181,24 @@ export default function Mission() {
     { field: "description", headerName: "Description", width: 280 },
     { field: "level1", headerName: "level 1 (%)", width: 80 },
     { field: "level2", headerName: "level 2(%)", width: 80 },
-    { field: "level3", headerName: "level 3(%)", width: 80},
-    { field: "level4", headerName: "level 4(%)", width: 80}
+    { field: "level3", headerName: "level 3(%)", width: 80 },
+    { field: "level4", headerName: "complete", width: 80 },
   ];
 
-  const findAverageAge = (arr) => {
+  function findAverageAge(arr) {
     const { length } = arr;
     return arr.reduce((acc, val) => {
       return acc + val.clearRate / length;
     }, 0);
-  };
+  }
 
+  console.log(Level);
   return (
     <div className="mission">
-      <MissionInfo AverageMission={findAverageAge(questListData)} />
-      {/* <MissionList rows = {questListData} />
-      <MissionList rows = {achievementListData} /> */}
-      <MissionList rows={questListData} columns={questColumns} />
-      <MissionList rows={achievementListData} columns={achievementColumns} />
+      <MissionInfo AverageMission={findAverageAge(questDataList)} />
+      <MissionList rows={questDataList} columns={questColumns} />
+      <MissionList rows={AchievementListData} columns={achievementColumns} />
+      {/* <BarChart title="Player Average Achievement Level" data={dataDistance} /> */}
       <div>
         {/* {AchievementListData.map((val, key) => {
           return(
