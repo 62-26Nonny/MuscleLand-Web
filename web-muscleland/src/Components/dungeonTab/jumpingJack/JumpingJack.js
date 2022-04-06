@@ -4,7 +4,7 @@ import JpJinfo from "./Jumpingjackinfo";
 import { DungeonDataContext } from "../../pages/dungeon/Dungeon";
 
 export default function JumpingJack() {
-  const dungeonData = useContext(DungeonDataContext);
+  const {dungeonData, userData} = useContext(DungeonDataContext);
 
   const Arr = Array.from( dungeonData )
   const JpJID = 3
@@ -16,9 +16,9 @@ export default function JumpingJack() {
     for(var i=0;i<Arr.length;i++) {
       if(Arr[i].dungeonID == JpJID) {
         JpJData.push(Arr[i])
-        if(Arr[i].difficulty == "easy") easy = easy+Arr[i].total
-        else if(Arr[i].difficulty == "medium") medium = medium+Arr[i].total
-        else if(Arr[i].difficulty == "hard") hard = hard+Arr[i].total
+        if(Arr[i].difficulty == "easy") easy += Arr[i].total+Arr[i].fail
+        else if(Arr[i].difficulty == "medium") medium += Arr[i].total+Arr[i].fail
+        else if(Arr[i].difficulty == "hard") hard += Arr[i].total+Arr[i].fail
       }
     }
   }
@@ -33,8 +33,8 @@ export default function JumpingJack() {
   return (
     <div>
       <div>
-        <JpJinfo data={JpJData}/>
-        <MyPieChart data={difficultyRatio}/>
+        <JpJinfo data={JpJData} user={userData}/>
+        <MyPieChart data={difficultyRatio} title="Difficulty Ratio"/>
       </div>
     </div>
   );

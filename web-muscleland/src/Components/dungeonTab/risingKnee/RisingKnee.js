@@ -4,7 +4,7 @@ import RisingKneeinfo from "./RisingKneeinfo";
 import { DungeonDataContext } from "../../pages/dungeon/Dungeon";
 
 export default function RisingKnee() {
-  const dungeonData = useContext(DungeonDataContext);
+  const {dungeonData, userData} = useContext(DungeonDataContext);
 
   const Arr = Array.from( dungeonData )
   const RisingKneeID = 2
@@ -16,9 +16,9 @@ export default function RisingKnee() {
     for(var i=0;i<Arr.length;i++) {
       if(Arr[i].dungeonID == RisingKneeID) {
         RisingKneeData.push(Arr[i])
-        if(Arr[i].difficulty == "easy") easy = easy+Arr[i].total
-        else if(Arr[i].difficulty == "medium") medium = medium+Arr[i].total
-        else if(Arr[i].difficulty == "hard") hard = hard+Arr[i].total
+        if(Arr[i].difficulty == "easy") easy += Arr[i].total+Arr[i].fail
+        else if(Arr[i].difficulty == "medium") medium += Arr[i].total+Arr[i].fail
+        else if(Arr[i].difficulty == "hard") hard += Arr[i].total+Arr[i].fail
       }
     }
   }
@@ -33,8 +33,8 @@ export default function RisingKnee() {
   return (
     <div>
       <div>
-        <RisingKneeinfo data={RisingKneeData}/>
-        <MyPieChart data={difficultyRatio}/>
+        <RisingKneeinfo data={RisingKneeData} user={userData}/>
+        <MyPieChart data={difficultyRatio} title="Difficulty Ratio"/>
       </div>
     </div>
   );
