@@ -10,12 +10,6 @@ const DungeonDataContext = React.createContext();
 export { DungeonDataContext };
 
 export default function Dungeon() {
-  useEffect(() => {
-    axiosNoAuthenInstance.get("/achievement").then((res) => {
-      console.log(res.data);
-    });
-  }, []);
-
   const [dungeonData, dungeonStat] = useState([]);
   useEffect(() => {
     axiosNoAuthenInstance.get('/dungeonstat').then((res) => {
