@@ -4,7 +4,7 @@ import { DungeonDataContext } from "../../pages/dungeon/Dungeon";
 
 
 export default function Total() {
-  const dungeonData = useContext(DungeonDataContext);
+  const {dungeonData, userData} = useContext(DungeonDataContext);
 
   const Arr = Array.from( dungeonData )
   console.log(Arr)
@@ -27,18 +27,19 @@ export default function Total() {
   const JpJID = 3
   if (Arr.length !== 0) {
     for(var i=0;i<Arr.length;i++) {
+      // if(Arr[i].total < Arr[i].fail) continue;
       if(Arr[i].dungeonID == SquatID) {
-        clearRate[0].complete = clearRate[0].complete+Arr[i].total
+        clearRate[0].complete += Arr[i].total;
+        clearRate[0].fail += Arr[i].fail;
       }
       else if(Arr[i].dungeonID == RisingKneeID) {
-        clearRate[1].complete = clearRate[1].complete+Arr[i].total
+        clearRate[1].complete += Arr[i].total;
+        clearRate[1].fail += Arr[i].fail;
       }
       else if(Arr[i].dungeonID == JpJID) {
-        clearRate[2].complete = clearRate[2].complete+Arr[i].total
+        clearRate[2].complete += Arr[i].total;
+        clearRate[2].fail += Arr[i].fail;
       }
-    }
-    for(var j=0;j<clearRate.length;j++) {
-      clearRate[j].complete = clearRate[j].complete-clearRate[j].fail
     }
   }
   return (

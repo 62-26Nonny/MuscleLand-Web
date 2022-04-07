@@ -18,8 +18,16 @@ export default function Dungeon() {
     })
   }, [])
 
+  const [userData, userStat] = useState([]);
+  useEffect(() => {
+    axiosNoAuthenInstance.get('/user').then((res) => {
+      userStat(res.data);
+      console.log(res.data)
+    })
+  }, [])
+
   return (
-    <DungeonDataContext.Provider value={ dungeonData }>
+    <DungeonDataContext.Provider value={ {dungeonData, userData} }>
       <Router>
         <div className="dungeonTitle">
           <Switch>
