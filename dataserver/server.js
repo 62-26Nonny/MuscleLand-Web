@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 
 app.get("/admin", async (req, res) => {
   res.json(await db.AdminGet());
+  //   res.json({ username: "Admin", password: "Admin12345" });
 });
 
 app.get("/user", async (req, res) => {
