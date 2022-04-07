@@ -90,7 +90,7 @@ export default function Mission() {
   }, []);
 
   useEffect(() => {
-    const reducedachievement = UserAchievement.reduce(
+    var reducedachievement = UserAchievement.reduce(
       (acc, { curlvl, arcID }) => ({
         ...acc,
         [arcID]: acc[arcID] ? [...acc[arcID], { curlvl }] : [{ curlvl }],
@@ -98,53 +98,53 @@ export default function Mission() {
       {}
     );
 
-    for (let i = 1; i <= Achievement.length; i++) {
-      reducedachievement[i] =
-        reducedachievement === undefined
-          ? ""
-          : reducedachievement[i].reduce((p, c) => {
-              var curlvl = c.curlvl;
-              if (!p.hasOwnProperty(curlvl)) {
-                p[curlvl] = 0;
-              }
-              p[curlvl]++;
-              return p;
-            }, {});
+    if (reducedachievement != undefined)
+    {
+      for (let i = 1; i <= Achievement.length; i++) {
+        reducedachievement[i] = reducedachievement[i].reduce((p, c) => {
+                var curlvl = c.curlvl;
+                if (!p.hasOwnProperty(curlvl)) {
+                  p[curlvl] = 0;
+                }
+                p[curlvl]++;
+                return p;
+              }, {});
+      }
+  
+      const achievementListData = Achievement.map((val, key) => {
+        return {
+          id: val.arcID,
+          description:
+            "Play " +
+            val.arcname +
+            DungeonNaNCheck(val.difficulty) +
+            val.times +
+            " time",
+          level1:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][1]) / User[0].usercount) *
+                100,
+          level2:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][2]) / User[0].usercount) *
+                100,
+          level3:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][3]) / User[0].usercount) *
+                100,
+          level4:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][4]) / User[0].usercount) *
+                100,
+        };
+      });
+  
+      setAchievementListData(achievementListData);
     }
-
-    const achievementListData = Achievement.map((val, key) => {
-      return {
-        id: val.arcID,
-        description:
-          "Play " +
-          val.arcname +
-          DungeonNaNCheck(val.difficulty) +
-          val.times +
-          " time",
-        level1:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][1]) / User[0].usercount) *
-              100,
-        level2:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][2]) / User[0].usercount) *
-              100,
-        level3:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][3]) / User[0].usercount) *
-              100,
-        level4:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][4]) / User[0].usercount) *
-              100,
-      };
-    });
-
-    setAchievementListData(achievementListData);
 
     // const dataDistance = [
     //   {
