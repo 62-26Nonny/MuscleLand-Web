@@ -44,7 +44,7 @@ export default function Users() {
   
   const columns = [
     { field: "id", headerName: "ID", width: 170 },
-    { field: "userName", headerName: "User Name", width: 220 },
+    { field: "userName", headerName: "User Name", width: 225 },
     { field: "status", headerName: "Status", width: 130 },
   ];
 
