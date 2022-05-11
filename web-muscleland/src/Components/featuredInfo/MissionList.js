@@ -4,7 +4,8 @@ import "./missionList.css";
 export default function MissionList(props) {
   return (
     <div className="tableMission">
-      <div style={{ height: 400, width: "82.5%" }}>
+      <h3><strong>{props.title}</strong></h3>
+      <div style={{ height: 400, width: "82.5%"}}>
         <DataGrid
           rows={props.rows}
           columns={props.columns}

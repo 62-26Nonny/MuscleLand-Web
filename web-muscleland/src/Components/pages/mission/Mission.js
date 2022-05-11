@@ -117,9 +117,7 @@ export default function Mission() {
           description:
             "Play " +
             val.arcname +
-            DungeonNaNCheck(val.difficulty) +
-            val.times +
-            " time",
+            DungeonNaNCheck(val.difficulty),
           level1:
             User[0] === undefined
               ? ""
@@ -170,7 +168,7 @@ export default function Mission() {
   }, [User, UserAchievement, Achievement, Level]);
 
   const questColumns = [
-    { field: "id", headerName: "Mission ID", width: 50 },
+    { field: "id", headerName: "ID", width: 50 },
     { field: "description", headerName: "Description", width: 260 },
     { field: "type", headerName: "Type", width: 130 },
     { field: "clearRate", headerName: "Clear rate (%)", width: 130 },
@@ -196,18 +194,15 @@ export default function Mission() {
   return (
     <div className="mission">
       <MissionInfo AverageMission={findAverageAge(questDataList)} />
-      <MissionList rows={questDataList} columns={questColumns} />
-      <MissionList rows={AchievementListData} columns={achievementColumns} />
-      {/* <BarChart title="Player Average Achievement Level" data={dataDistance} /> */}
-      <div>
-        {/* {AchievementListData.map((val, key) => {
-          return(
-          <p>
-            {val}
-          </p>
-          ) 
-        })} */}
+      <div className="table">
+        <MissionList title = {"Mission"} rows={questDataList} columns={questColumns} />
       </div>
+      
+      <div className="table">
+        <MissionList title = {"Achievement"} rows={AchievementListData} columns={achievementColumns} />
+      </div>
+      
+      {/* <BarChart title="Player Average Achievement Level" data={dataDistance} /> */}
     </div>
   );
 }
