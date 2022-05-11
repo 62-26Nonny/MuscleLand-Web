@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 export default function UserList(props) {
   return (
         <div className="tableList">
+          <h3><strong>Item List</strong></h3>
           <div style={{ height: 400, width: "90%" }}>
             <DataGrid
               rows={props.rows}

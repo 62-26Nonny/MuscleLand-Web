@@ -90,7 +90,7 @@ export default function Mission() {
   }, []);
 
   useEffect(() => {
-    const reducedachievement = UserAchievement.reduce(
+    var reducedachievement = UserAchievement.reduce(
       (acc, { curlvl, arcID }) => ({
         ...acc,
         [arcID]: acc[arcID] ? [...acc[arcID], { curlvl }] : [{ curlvl }],
@@ -98,53 +98,51 @@ export default function Mission() {
       {}
     );
 
-    for (let i = 1; i <= Achievement.length; i++) {
-      reducedachievement[i] =
-        reducedachievement === undefined
-          ? ""
-          : reducedachievement[i].reduce((p, c) => {
-              var curlvl = c.curlvl;
-              if (!p.hasOwnProperty(curlvl)) {
-                p[curlvl] = 0;
-              }
-              p[curlvl]++;
-              return p;
-            }, {});
+    if (reducedachievement != undefined)
+    {
+      for (let i = 1; i <= Achievement.length; i++) {
+        reducedachievement[i] = reducedachievement[i].reduce((p, c) => {
+                var curlvl = c.curlvl;
+                if (!p.hasOwnProperty(curlvl)) {
+                  p[curlvl] = 0;
+                }
+                p[curlvl]++;
+                return p;
+              }, {});
+      }
+  
+      const achievementListData = Achievement.map((val, key) => {
+        return {
+          id: val.arcID,
+          description:
+            "Play " +
+            val.arcname +
+            DungeonNaNCheck(val.difficulty),
+          level1:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][1]) / User[0].usercount) *
+                100,
+          level2:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][2]) / User[0].usercount) *
+                100,
+          level3:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][3]) / User[0].usercount) *
+                100,
+          level4:
+            User[0] === undefined
+              ? ""
+              : (NaNCheck(reducedachievement[val.arcID][4]) / User[0].usercount) *
+                100,
+        };
+      });
+  
+      setAchievementListData(achievementListData);
     }
-
-    const achievementListData = Achievement.map((val, key) => {
-      return {
-        id: val.arcID,
-        description:
-          "Play " +
-          val.arcname +
-          DungeonNaNCheck(val.difficulty) +
-          val.times +
-          " time",
-        level1:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][1]) / User[0].usercount) *
-              100,
-        level2:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][2]) / User[0].usercount) *
-              100,
-        level3:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][3]) / User[0].usercount) *
-              100,
-        level4:
-          User[0] === undefined
-            ? ""
-            : (NaNCheck(reducedachievement[val.arcID][4]) / User[0].usercount) *
-              100,
-      };
-    });
-
-    setAchievementListData(achievementListData);
 
     // const dataDistance = [
     //   {
@@ -170,7 +168,7 @@ export default function Mission() {
   }, [User, UserAchievement, Achievement, Level]);
 
   const questColumns = [
-    { field: "id", headerName: "Mission ID", width: 50 },
+    { field: "id", headerName: "ID", width: 50 },
     { field: "description", headerName: "Description", width: 260 },
     { field: "type", headerName: "Type", width: 130 },
     { field: "clearRate", headerName: "Clear rate (%)", width: 130 },
@@ -196,18 +194,15 @@ export default function Mission() {
   return (
     <div className="mission">
       <MissionInfo AverageMission={findAverageAge(questDataList)} />
-      <MissionList rows={questDataList} columns={questColumns} />
-      <MissionList rows={AchievementListData} columns={achievementColumns} />
-      {/* <BarChart title="Player Average Achievement Level" data={dataDistance} /> */}
-      <div>
-        {/* {AchievementListData.map((val, key) => {
-          return(
-          <p>
-            {val}
-          </p>
-          ) 
-        })} */}
+      <div className="table">
+        <MissionList title = {"Mission"} rows={questDataList} columns={questColumns} />
       </div>
+      
+      <div className="table">
+        <MissionList title = {"Achievement"} rows={AchievementListData} columns={achievementColumns} />
+      </div>
+      
+      {/* <BarChart title="Player Average Achievement Level" data={dataDistance} /> */}
     </div>
   );
 }
